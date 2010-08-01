@@ -127,6 +127,13 @@ jasmine.Matchers.prototype.toNotMatch = function(expected) {
 };
 
 /**
+ * Matcher that compares the type.
+ */
+jasmine.Matchers.prototype.toBeInstanceOf = function(expected) {
+  return this.env.equals_(this.actual, jasmine.any(expected));
+};
+
+/**
  * Matcher that compares the actual to jasmine.undefined.
  */
 jasmine.Matchers.prototype.toBeDefined = function() {
@@ -321,6 +328,10 @@ jasmine.Matchers.Any.prototype.matches = function(other) {
 
   if (this.expectedClass == Function) {
     return typeof other == 'function' || other instanceof Function;
+  }
+  
+  if (this.expectedClass == Boolean) {
+    return other === true || other === false;
   }
 
   if (this.expectedClass == Object) {

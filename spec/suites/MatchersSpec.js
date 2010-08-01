@@ -213,6 +213,64 @@ describe("jasmine.Matchers", function() {
     expect(result.expected).toEqual(str);
     expect(result.actual).toEqual(str);
   });
+  
+  describe('toBeInstanceOf', function() { 
+
+    it('should match a bunch of types', function() {
+    
+        expect("hello world").toBeInstanceOf(String);
+        expect(function() {}).toBeInstanceOf(Function);
+        expect(true).toBeInstanceOf(Boolean);
+        expect(false).toBeInstanceOf(Boolean);
+        expect({}).toBeInstanceOf(Object);
+        expect([]).toBeInstanceOf(Array);
+        expect(1).toBeInstanceOf(Number);
+        expect(/regular-expression/).toBeInstanceOf(RegExp);    
+        expect(new Date(2008, 1, 3, 15, 17, 19, 1234)).toBeInstanceOf(Date);
+    });
+    
+    it('shouldnt match null to anything', function() {
+
+        expect(null).not.toBeInstanceOf(String);
+        expect(null).not.toBeInstanceOf(Function);
+        expect(null).not.toBeInstanceOf(Boolean);
+        expect(null).not.toBeInstanceOf(Object);
+        expect(null).not.toBeInstanceOf(Array);
+        expect(null).not.toBeInstanceOf(Number);
+        expect(null).not.toBeInstanceOf(RegExp);    
+        expect(null).not.toBeInstanceOf(Date);
+    });
+    
+    it('shouldnt match undefined to anything', function() {
+
+        var somethingUndefined;
+
+        expect(somethingUndefined).not.toBeInstanceOf(String);
+        expect(somethingUndefined).not.toBeInstanceOf(Function);
+        expect(somethingUndefined).not.toBeInstanceOf(Boolean);
+        expect(somethingUndefined).not.toBeInstanceOf(Object);
+        expect(somethingUndefined).not.toBeInstanceOf(Array);
+        expect(somethingUndefined).not.toBeInstanceOf(Number);
+        expect(somethingUndefined).not.toBeInstanceOf(RegExp);    
+        expect(somethingUndefined).not.toBeInstanceOf(Date);
+    });
+    
+    it('should support not',  function() {
+    
+        var other = new Date(2008, 1, 3, 15, 17, 19, 1234);
+    
+        expect(other).toBeInstanceOf(Object);
+        expect(other).toBeInstanceOf(Date);    
+
+        expect(other).not.toBeInstanceOf(String);
+        expect(other).not.toBeInstanceOf(Function);
+        expect(other).not.toBeInstanceOf(Boolean);
+        expect(other).not.toBeInstanceOf(Boolean);
+        expect(other).not.toBeInstanceOf(Array);
+        expect(other).not.toBeInstanceOf(Number);
+        expect(other).not.toBeInstanceOf(RegExp);    
+    });
+  });
 
   it("toBeDefined", function() {
     expect(match('foo').toBeDefined()).toEqual(true);
@@ -337,6 +395,8 @@ describe("jasmine.Matchers", function() {
     }).toEqual(jasmine.any(Function))).toEqual(true);
     expect(match(["a", function() {
     }]).toEqual(["a", jasmine.any(Function)])).toEqual(true);
+    expect(true).toEqual(jasmine.any(Boolean));
+    expect(false).toEqual(jasmine.any(Boolean));
   });
 
   it("toEqual handles circular objects ok", function() {
@@ -711,6 +771,5 @@ describe("jasmine.Matchers", function() {
       it('should throw an exception when invoked on a non-spy', shouldThrowAnExceptionWhenInvokedOnANonSpy('wasNotCalledWith'));
 
     });
-
   });
 });
